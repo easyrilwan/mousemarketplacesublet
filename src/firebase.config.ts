@@ -9,15 +9,17 @@ import { getFirestore } from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBCsiAZ7D49V-pHLia0hmerL4iWUSyswZs",
-  authDomain: "house-marketplace-sublet.firebaseapp.com",
-  projectId: "house-marketplace-sublet",
+  apiKey: "AIzaSyBg1oQJYvDfA6v_UBuQs7H4gkvJwFZEEjM",
+  authDomain: "house-marketplace-sublet-4c125.firebaseapp.com",
+  projectId: "house-marketplace-sublet-4c125",
 
-  storageBucket: "house-marketplace-sublet.appspot.com",
-  // storageBucket: "house-marketplace-sublet.firebasestorage.app",
-  messagingSenderId: "679839873460",
-  appId: "1:679839873460:web:7e28e0a1c45c7de80cdae1",
-  measurementId: "G-QQ8MBKX1HT",
+  storageBucket: "house-markplace-sublet-4c125.appspot.com",
+  // storageBucket: "house-marketplace-sublet-4c125.firebasestorage.app",
+
+  messagingSenderId: "546990098316",
+  appId: "1:546990098316:web:902d4892f3d165586ff8a9",
+  
+  // measurementId: "G-4NT7044TKK",
 };
 
 // Initialize Firebase
