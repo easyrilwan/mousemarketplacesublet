@@ -9,9 +9,7 @@ export default function AppLayout() {
         <Outlet />
       </main>
 
-      <header>
-        <Navbar />
-      </header>
+      <Navbar />
 
       {/* <footer>
         <Footer />
