@@ -1,10 +1,18 @@
-import { useState, type ChangeEvent } from "react";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { BiChevronRight } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { HiMiniIdentification } from "react-icons/hi2";
 import { IoMdLock } from "react-icons/io";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
+
+import { db } from "../firebase.config";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -18,11 +26,60 @@ export default function SignUp() {
 
   const { name, email, password } = formData;
 
+  /**
+   * Handles input changes for ALL inputs
+   * Uses input `id` to update the matching field in state
+   */
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.id]: e.target.value,
     }));
+  };
+
+  /**
+   * Handles form submission
+   * 1. Creates user in Firebase Auth
+   * 2. Updates display name
+   * 3. Stores user profile in Firestore (without password)
+   */
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      // Initialize Firebase Auth
+      const auth = getAuth();
+
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
+      // Update Firebase Auth profile with user's name
+      await updateProfile(userCredential.user, {
+        displayName: name,
+      });
+
+      // Firestore user profile data (no password stored)
+      const firestoreData = {
+        name: formData.name,
+        email: formData.email,
+        timestamp: serverTimestamp(),
+      };
+
+      /**
+       * Save user data to Firestore
+       * Document ID = Firebase Auth UID
+       */
+      await setDoc(doc(db, "users", userCredential.user.uid), firestoreData);
+
+      // Redirect user after successful signup
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -31,7 +88,7 @@ export default function SignUp() {
         <p className="text-3xl font-bold">Welcome Back!</p>
       </header>
 
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={onSubmit}>
         {/* NAME */}
         <div className="flex items-center gap-2 rounded-full bg-white p-2">
           <HiMiniIdentification size={24} />
@@ -95,7 +152,10 @@ export default function SignUp() {
         <div className="flex items-center justify-between gap-2">
           <p className="text-xl font-medium">Sign Up</p>
 
-          <button className="rounded-full bg-gray-300 p-2">
+          <button
+            type="submit"
+            className="cursor-pointer rounded-full bg-gray-300 p-2"
+          >
             <BiChevronRight size={24} />
           </button>
         </div>

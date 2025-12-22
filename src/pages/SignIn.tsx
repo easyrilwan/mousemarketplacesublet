@@ -76,7 +76,7 @@ export default function SignIn() {
         <div className="flex items-center justify-between gap-2">
           <p className="text-xl font-medium">Sign In</p>
 
-          <button className="rounded-full bg-gray-300 p-2">
+          <button type="submit" className="rounded-full bg-gray-300 p-2">
             <BiChevronRight size={24} />
           </button>
         </div>
