@@ -11,6 +11,7 @@ import { HiMiniIdentification } from "react-icons/hi2";
 import { IoMdLock } from "react-icons/io";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { db } from "../firebase.config";
 
@@ -78,6 +79,7 @@ export default function SignUp() {
       // Redirect user after successful signup
       navigate("/");
     } catch (error) {
+      toast.error("Bad User Credentials");
       console.log(error);
     }
   };

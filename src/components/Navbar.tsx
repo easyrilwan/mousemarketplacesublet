@@ -7,8 +7,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(location.pathname, location);
-
   const pathMatchRoute = (route: string) => {
     if (route === location.pathname) return true;
   };

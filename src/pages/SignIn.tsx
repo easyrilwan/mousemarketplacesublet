@@ -5,6 +5,7 @@ import { FaUser } from "react-icons/fa";
 import { IoMdLock } from "react-icons/io";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ export default function SignIn() {
         navigate("/");
       }
     } catch (error) {
+      toast.error("Invalid User Credentials");
       console.log(error);
     }
   };
