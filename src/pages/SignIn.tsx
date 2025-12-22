@@ -1,4 +1,5 @@
-import { useState, type ChangeEvent } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { BiChevronRight } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { IoMdLock } from "react-icons/io";
@@ -20,13 +21,35 @@ export default function SignIn() {
     }));
   };
 
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      // Initialize Firebase Auth
+      const auth = getAuth();
+
+      // Login user with email and password
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
+      if (userCredential.user) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className="space-y-4 p-4">
       <header>
         <p className="text-3xl font-bold">Welcome Back!</p>
       </header>
 
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={onSubmit}>
         {/* EMAIL */}
         <div className="flex items-center gap-2 rounded-full bg-white p-2">
           <FaUser size={24} />
@@ -76,7 +99,10 @@ export default function SignIn() {
         <div className="flex items-center justify-between gap-2">
           <p className="text-xl font-medium">Sign In</p>
 
-          <button type="submit" className="rounded-full bg-gray-300 p-2">
+          <button
+            type="submit"
+            className="cursor-pointer rounded-full bg-gray-300 p-2"
+          >
             <BiChevronRight size={24} />
           </button>
         </div>
