@@ -16,8 +16,8 @@ export default function SignIn() {
   const { email, password } = formData;
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((prevState) => ({
+      ...prevState,
       [e.target.id]: e.target.value,
     }));
   };

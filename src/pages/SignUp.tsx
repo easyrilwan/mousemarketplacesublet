@@ -32,8 +32,8 @@ export default function SignUp() {
    * Uses input `id` to update the matching field in state
    */
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((prevState) => ({
+      ...prevState,
       [e.target.id]: e.target.value,
     }));
   };
