@@ -11,6 +11,7 @@ export default function SignIn() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const { email, password } = formData;
@@ -39,6 +40,8 @@ export default function SignIn() {
       if (userCredential.user) {
         navigate("/");
       }
+
+      toast.success("Login Successful");
     } catch (error) {
       toast.error("Invalid User Credentials");
       console.log(error);

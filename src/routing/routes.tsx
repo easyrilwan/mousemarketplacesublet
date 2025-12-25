@@ -7,6 +7,7 @@ import Offers from "../pages/Offers";
 import Profile from "../pages/Profile";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,12 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Explore },
       { path: "offers", Component: Offers },
-      { path: "profile", Component: Profile },
+
+      {
+        Component: PrivateRoute,
+        children: [{ path: "profile", Component: Profile }],
+      },
+
       { path: "sign-in", Component: SignIn },
       { path: "sign-up", Component: SignUp },
       { path: "forgot-password", Component: ForgotPassword },
