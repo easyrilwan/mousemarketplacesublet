@@ -77,8 +77,13 @@ export default function SignUp() {
        */
       await setDoc(doc(db, "users", userCredential.user.uid), firestoreData);
 
+      toast.success("Account created successfully");
+
       // Redirect user after successful signup
-      navigate("/");
+      // Small delay so the toast is visible
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
       toast.error("Bad User Credentials");
       console.log(error);
