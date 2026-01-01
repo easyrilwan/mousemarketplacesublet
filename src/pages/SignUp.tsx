@@ -13,6 +13,7 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import OAuth from "../components/OAuth";
 import { db } from "../firebase.config";
 
 export default function SignUp() {
@@ -168,6 +169,8 @@ export default function SignUp() {
           </button>
         </div>
       </form>
+
+      <OAuth />
 
       {/* GOOGLE OAuth */}
       <Link

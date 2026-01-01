@@ -7,6 +7,8 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import OAuth from "../components/OAuth";
+
 export default function SignIn() {
   const navigate = useNavigate();
 
@@ -114,6 +116,8 @@ export default function SignIn() {
       </form>
 
       {/* GOOGLE OAuth */}
+      <OAuth />
+
       <Link
         to="/sign-up"
         className="flex justify-center font-bold text-green-500"
