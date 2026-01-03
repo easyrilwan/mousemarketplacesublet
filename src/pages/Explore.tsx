@@ -13,20 +13,20 @@ export default function Explore() {
 
         <p className="font-semibold">Categories</p>
 
-        <div>
-          <Link to="/category/rent">
+        <div className="space-x-4">
+          <Link to="/category/rent" className="flex-1">
             <img
               src={rentCategoryImage}
               alt="rent"
-              className="size-1/6 rounded-2xl object-cover"
+              className="inline-block aspect-video min-h-20 max-w-40 rounded-2xl object-cover"
             />
           </Link>
 
-          <Link to="/category/sell">
+          <Link to="/category/sell" className="flex-1">
             <img
               src={sellCategoryImage}
               alt="sell"
-              className="size-1/6 rounded-2xl object-cover"
+              className="inline-block aspect-video min-h-20 max-w-40 rounded-2xl object-cover"
             />
           </Link>
         </div>
