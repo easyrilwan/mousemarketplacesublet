@@ -13,21 +13,23 @@ export default function Explore() {
 
         <p className="font-semibold">Categories</p>
 
-        <div className="space-x-4">
+        <div className="flex w-fit gap-4">
           <Link to="/category/rent" className="flex-1">
             <img
               src={rentCategoryImage}
               alt="rent"
-              className="inline-block aspect-video min-h-20 max-w-40 rounded-2xl object-cover"
+              className="aspect-video min-h-20 max-w-40 rounded-2xl object-cover"
             />
+            <p className="font-medium">Places for rent</p>
           </Link>
 
-          <Link to="/category/sell" className="flex-1">
+          <Link to="/category/sale" className="flex-1">
             <img
               src={sellCategoryImage}
               alt="sell"
-              className="inline-block aspect-video min-h-20 max-w-40 rounded-2xl object-cover"
+              className="aspect-video min-h-20 max-w-40 rounded-2xl object-cover"
             />
+            <p className="font-medium">Places for sale</p>
           </Link>
         </div>
       </div>
