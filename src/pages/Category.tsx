@@ -23,7 +23,7 @@ export default function Category() {
     const fetchListings = async () => {
       try {
         /* GET A REFERENCE */
-        const listingsRef = collection(db, "listings");
+        const listingsRef = collection(db, "listing");
 
         /* CREATE A QUERY */
         const q = query(
@@ -40,6 +40,12 @@ export default function Category() {
 
         querySnapshot.forEach((doc) => {
           console.log(doc);
+          console.log(doc.id, " => ", doc.data());
+
+          return listings.push({
+            id: doc.id,
+            data: doc.data(),
+          });
         });
 
         setListings(listings);
@@ -58,23 +64,30 @@ export default function Category() {
   }, [params.categoryName]);
 
   return (
-    <div>
-      <h1 className="mb-4 text-2xl font-semibold capitalize">
-        {params.categoryName} Listings
-      </h1>
-      {loading && <p>Loading...</p>}
-      {!loading && (!listings || listings.length === 0) && (
-        <p>No listings found.</p>
-      )}
-      {!loading && listings && listings.length > 0 && (
-        <ul>
-          {listings.map((item) => (
-            <li key={item.id} className="mb-2">
-              {item.data.name || item.id}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="space-y-4 p-4">
+      <header>
+        <h1 className="text-2xl font-semibold">
+          Places for {params.categoryName === "rent" ? "rent" : "sale"}
+        </h1>
+      </header>
+
+      <section>
+        {loading && <p>Loading...</p>}
+
+        {!loading && (!listings || listings.length === 0) && (
+          <p className="font-bold">No listings {params.categoryName} found.</p>
+        )}
+        
+        {!loading && listings && listings.length > 0 && (
+          <ul>
+            {listings.map((listing) => (
+              <li key={listing.id} className="font-semibold">
+                {listing.data.name || listing.id}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }
