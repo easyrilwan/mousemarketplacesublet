@@ -9,6 +9,7 @@ export default function ListingItem({ listing, id, onDelete }) {
         <img
           src={listing.imageUrls[0]}
           alt={listing.name}
+          loading="lazy"
           className="aspect-video max-w-40 rounded-2xl object-cover"
         />
 

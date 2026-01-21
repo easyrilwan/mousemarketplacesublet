@@ -5,7 +5,6 @@ import {
   orderBy,
   query,
   where,
-  startAfter,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -43,17 +42,18 @@ export default function Category() {
           console.log(doc);
           console.log(doc.id, " => ", doc.data());
 
-          return listings.push({
+          listings.push({
             id: doc.id,
             data: doc.data(),
           });
         });
 
         setListings(listings);
-        setLoading(false);
       } catch (error) {
         console.log(error);
         toast.error("Could not fetch listings");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -76,21 +76,19 @@ export default function Category() {
         {loading && <p>Loading...</p>}
 
         {!loading && (!listings || listings.length === 0) && (
-          <p className="font-bold">No listings {params.categoryName} found.</p>
+          <p>No listings {params.categoryName} found.</p>
         )}
 
         {!loading && listings && listings.length > 0 && (
-          <>
+          <ul>
             {listings.map((listing) => (
-              <ul>
-                <ListingItem
-                  listing={listing.data}
-                  id={listing.id}
-                  key={listing.id}
-                />
-              </ul>
+              <ListingItem
+                key={listing.id}
+                listing={listing.data}
+                id={listing.id}
+              />
             ))}
-          </>
+          </ul>
         )}
       </section>
     </div>

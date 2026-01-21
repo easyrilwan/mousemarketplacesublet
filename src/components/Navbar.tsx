@@ -44,7 +44,7 @@ export default function Navbar() {
               pathMatchRoute("/offers") ? "text-[#2c2c2c]" : "text-[#8f8f8f]"
             }
           >
-            Offer
+            Offers
           </p>
         </li>
 

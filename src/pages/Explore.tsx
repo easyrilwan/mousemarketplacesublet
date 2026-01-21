@@ -18,6 +18,7 @@ export default function Explore() {
             <img
               src={rentCategoryImage}
               alt="rent"
+              loading="lazy"
               className="aspect-video min-h-20 max-w-40 rounded-2xl object-cover"
             />
             <p className="font-medium">Places for rent</p>
