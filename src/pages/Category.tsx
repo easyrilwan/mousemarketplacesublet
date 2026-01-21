@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import ListingItem from "../components/ListingItem";
 import { db } from "../firebase.config";
 
 export default function Category() {
@@ -77,15 +78,19 @@ export default function Category() {
         {!loading && (!listings || listings.length === 0) && (
           <p className="font-bold">No listings {params.categoryName} found.</p>
         )}
-        
+
         {!loading && listings && listings.length > 0 && (
-          <ul>
+          <>
             {listings.map((listing) => (
-              <li key={listing.id} className="font-semibold">
-                {listing.data.name || listing.id}
-              </li>
+              <ul>
+                <ListingItem
+                  listing={listing.data}
+                  id={listing.id}
+                  key={listing.id}
+                />
+              </ul>
             ))}
-          </ul>
+          </>
         )}
       </section>
     </div>
