@@ -55,7 +55,7 @@ export default function Profile() {
     }));
   };
 
-  return (
+  return ( 
     <div className="space-y-8 px-2 py-4">
       <header className="flex justify-between">
         <p className="text-xl font-bold">My Profile</p>
