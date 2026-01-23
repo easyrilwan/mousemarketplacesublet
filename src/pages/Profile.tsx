@@ -1,7 +1,9 @@
 import { getAuth, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { useState, type ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { FaHouse } from "react-icons/fa6";
+import { IoChevronForward } from "react-icons/io5";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { db } from "../firebase.config";
@@ -55,7 +57,7 @@ export default function Profile() {
     }));
   };
 
-  return ( 
+  return (
     <div className="space-y-8 px-2 py-4">
       <header className="flex justify-between">
         <p className="text-xl font-bold">My Profile</p>
@@ -86,7 +88,7 @@ export default function Profile() {
         </div>
 
         <div>
-          <form className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-4">
             <input
               type="text"
               id="name"
@@ -112,6 +114,15 @@ export default function Profile() {
             />
           </form>
         </div>
+
+        <Link
+          to="/create-listing"
+          className="mt-8 flex items-center justify-between rounded-lg bg-white px-2 py-4"
+        >
+          <FaHouse aria-label="house" />
+          <p className="font-bold">Sell or rent your home</p>
+          <IoChevronForward aria-label="chevron right" />
+        </Link>
       </div>
     </div>
   );
