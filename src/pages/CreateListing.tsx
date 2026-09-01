@@ -1,5 +1,11 @@
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Spinner from "../components/Spinner";
@@ -76,7 +82,7 @@ export default function CreateListing() {
     e.preventDefault();
   };
 
-  const onMutate = (e: FormEvent<HTMLFormElement>) => {};
+  const onMutate = (e: ChangeEvent<HTMLFormElement>) => {};
 
   return (
     <div className="space-y-8 px-2 py-4">
@@ -85,10 +91,11 @@ export default function CreateListing() {
       </header>
 
       <main className="">
-        <form onSubmit={onSubmit} className="space-y-4">
-          <label htmlFor="sale">Sell / Rent</label>
-
+        <form onSubmit={onSubmit} className="space-y-4 space-x-8 font-medium">
+          {/* SELL/RENT */}
+          <label>Sell / Rent</label>
           <div className="space-x-2 font-bold">
+            {/* SELL BUTTON */}
             <button
               type="button"
               className={`w-fit cursor-pointer rounded-lg px-8 py-2 ${
@@ -101,10 +108,11 @@ export default function CreateListing() {
               Sell
             </button>
 
+            {/* RENT BUTTON */}
             <button
               type="button"
               className={`w-fit cursor-pointer rounded-lg px-8 py-2 ${
-                type === "rent" ? "bg-green-500" : "bg-white"
+                type === "rent" ? "bg-green-500 text-white" : "bg-white"
               } `}
               id="type"
               value="rent"
@@ -114,16 +122,136 @@ export default function CreateListing() {
             </button>
           </div>
 
-          <label htmlFor="name ">Name</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={onMutate}
-            maxLength={32}
-            minLength={10}
-            required
-          />
+          {/* NAME */}
+          <div className="flex flex-col gap-1">
+            <label htmlFor="name" className="w-fit cursor-pointer">
+              Name
+            </label>
+            <input
+              className="max-w-60 rounded-lg bg-white p-2 text-sm outline-none"
+              type="text"
+              id="name"
+              value={name}
+              onChange={onMutate}
+              maxLength={32}
+              minLength={10}
+              required
+            />
+          </div>
+
+          {/* BEDROOMS */}
+          <div className="inline-grid gap-1">
+            <label htmlFor="bedrooms" className="w-fit cursor-pointer">
+              Bedrooms
+            </label>
+            <input
+              className="max-w-12 rounded-lg bg-white p-2 text-sm outline-none"
+              type="number"
+              id="bedrooms"
+              value={bedrooms}
+              onChange={onMutate}
+              maxLength={32}
+              minLength={10}
+              required
+            />
+          </div>
+
+          {/* BATHROOMS */}
+          <div className="inline-grid gap-1">
+            <label htmlFor="bathrooms" className="w-fit cursor-pointer">
+              Bathrooms
+            </label>
+            <input
+              className="max-w-12 rounded-lg bg-white p-2 text-sm outline-none"
+              type="number"
+              id="bathrooms"
+              value={bathrooms}
+              onChange={onMutate}
+              maxLength={32}
+              minLength={10}
+              required
+            />
+          </div>
+          {/* PARKING SPOT */}
+          <div className="flex flex-col gap-1">
+            <label>Parking Spot</label>
+
+            <div className="space-x-2 font-bold">
+              {/* YES BUTTON */}
+              <button
+                type="button"
+                className={`w-fit cursor-pointer rounded-lg px-8 py-2 ${
+                  parking ? "bg-green-500" : "bg-white"
+                } `}
+                id="parking"
+                value={true}
+                onClick={onMutate}
+              >
+                Yes
+              </button>
+
+              {/* NO BUTTON */}
+              <button
+                type="button"
+                className={`w-fit cursor-pointer rounded-lg px-8 py-2 ${
+                  parking ? "bg-white" : "bg-green-500 text-white"
+                } `}
+                id="parking"
+                value={false}
+                onClick={onMutate}
+              >
+                No
+              </button>
+            </div>
+          </div>
+
+          {/* FURNISHED */}
+          <div className="space-y-8">
+            <label>Furnished</label>
+
+            <div className="space-x-2 font-bold">
+              {/* YES BUTTON */}
+              <button
+                type="button"
+                className={`w-fit cursor-pointer rounded-lg px-8 py-2 ${
+                  furnished ? "bg-green-500" : "bg-white"
+                } `}
+                id="furnished"
+                value={true}
+                onClick={onMutate}
+              >
+                Yes
+              </button>
+
+              {/* NO BUTTON */}
+              <button
+                type="button"
+                className={`w-fit cursor-pointer rounded-lg px-8 py-2 ${
+                  furnished ? "bg-white" : "bg-green-500 text-white"
+                } `}
+                id="furnished"
+                value={false}
+                onClick={onMutate}
+              >
+                No
+              </button>
+            </div>
+          </div>
+
+          {/* ADDRESS */}
+          <div className="flex flex-col gap-1">
+            <label htmlFor="address" className="w-fit cursor-pointer">
+              Address
+            </label>
+            <textarea
+              className="max-w-60 rounded-lg bg-white p-2 text-sm outline-none"
+              type="text"
+              id="address"
+              value={address}
+              onChange={onMutate}
+              required
+            />
+          </div>
         </form>
       </main>
     </div>
