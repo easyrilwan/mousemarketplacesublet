@@ -94,7 +94,7 @@ export default function CreateListing() {
     };
   }, [auth, navigate]);
 
-  /* * SUBMIT */
+  /* SUBMIT */
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -109,22 +109,42 @@ export default function CreateListing() {
     const geolocation = {};
     let location;
 
+    /* Geolocation API key NOT VALID */
     if (geolocation) {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyAj1lg0Thhg1wWSABx9pe61HJteo4ysLII`,
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${import.meta.env.VITE_GEOCODE_API_KEY}`,
       );
+
+      const data = await response.json();
+      console.log(data);
+
+      geolocation.lat = data.results[0].geometry.location.lat ?? 0;
+      geolocation.lng = data.results[0].geometry.location.lng ?? 0;
+
+      location =
+        data.status === "ZERO_RESULTS"
+          ? undefined
+          : data.results[0].formatted_address;
+
+      if (location === undefined) {
+        setLoading(false);
+        toast.error("Please enter a correct address");
+        return;
+      }
     } else {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
       location = address;
+
+      console.log(geolocation, location);
     }
+
+    setLoading(false);
 
     console.log("Form Data:", formData);
   };
 
-  /*
-   * TEXT / NUMBER INPUTS
-   */
+  /* TEXT / NUMBER INPUTS */
   const onMutate = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
 
@@ -137,9 +157,7 @@ export default function CreateListing() {
     }));
   };
 
-  /*
-   * SELL / RENT
-   */
+  /* SELL / RENT */
   const onTypeChange = (e: MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.value as ListingType;
 
@@ -168,9 +186,7 @@ export default function CreateListing() {
     }));
   };
 
-  /*
-   * IMAGES
-   */
+  /* IMAGES */
   const onImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
