@@ -12,7 +12,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-[#fefefe]">
+    <nav className="fixed right-0 bottom-0 left-0 z-99 bg-[#fefefe]">
       <ul className="flex justify-center gap-16 py-2">
         <li
           className="flex cursor-pointer flex-col items-center gap-2"

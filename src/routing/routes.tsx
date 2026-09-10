@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 
+import CreateListing from "../pages/CreateListing";
 import AppLayout from "../layout/AppLayout";
 import Category from "../pages/Category";
-import CreateListing from "../pages/CreateListing";
 import Explore from "../pages/Explore";
 import ForgotPassword from "../pages/ForgotPassword";
 import Offers from "../pages/Offers";
