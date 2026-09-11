@@ -139,6 +139,13 @@ export default function CreateListing() {
       console.log(geolocation, location);
     }
 
+    // Store images in firebase
+    const storeImage = asyn(image) => {
+      new Promise<void>((resolve, reject) => {
+        const storage
+      })
+    }
+
     setLoading(false);
 
     console.log("Form Data:", formData);
