@@ -12,6 +12,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
@@ -28,11 +29,11 @@ interface FormData {
   bathrooms: number;
   parking: boolean;
   furnished: boolean;
-  address: string;
+  address?: string;
   offer: boolean;
   regularPrice: number;
   discountedPrice: number;
-  images: File[];
+  images?: File[];
   latitude: number;
   longitude: number;
   userRef?: string;
@@ -118,6 +119,7 @@ export default function CreateListing() {
     let location;
 
     /* Geolocation API key NOT VALID */
+    // https://console.cloud.google.com/apis/library/geolocation.googleapis.com?project=house-marketplace-sublet-4c125
     if (geolocation) {
       const response = await fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${import.meta.env.VITE_GEOCODE_API_KEY}`,
@@ -132,7 +134,7 @@ export default function CreateListing() {
       location =
         data.status === "ZERO_RESULTS"
           ? undefined
-          : data.results[0].formatted_address;
+          : data.results[0]?.formatted_address;
 
       if (location === undefined) {
         setLoading(false);
@@ -192,11 +194,24 @@ export default function CreateListing() {
       return;
     });
 
-    console.log(imgUrls);
+    const formDataCopy = {
+      ...formData,
+      imgUrls,
+      geolocation,
+      timestamp: serverTimestamp(),
+    };
 
+    delete formDataCopy.images;
+    delete formDataCopy.address;
+    location && (formDataCopy.location = location);
+    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+
+    const docRef = await addDoc(collection(db, "listings"), formDataCopy);
+    // console.log(imgUrls);
     setLoading(false);
-
-    console.log("Form Data:", formData);
+    toast.success("Listing saved");
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
+    // console.log("Form Data:", formData);
   };
 
   /* TEXT / NUMBER INPUTS */
@@ -241,7 +256,7 @@ export default function CreateListing() {
     }));
   };
 
-  /* IMAGES */
+  /* IMAGES / FILES */
   const onImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
