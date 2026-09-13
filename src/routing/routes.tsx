@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import CreateListing from "../pages/CreateListing";
 import AppLayout from "../layout/AppLayout";
 import Category from "../pages/Category";
+import CreateListing from "../pages/CreateListing";
 import Explore from "../pages/Explore";
 import ForgotPassword from "../pages/ForgotPassword";
+import Listing from "../pages/Listing";
 import Offers from "../pages/Offers";
 import Profile from "../pages/Profile";
 import SignIn from "../pages/SignIn";
@@ -21,6 +22,7 @@ export const router = createBrowserRouter([
       { path: "offers", Component: Offers },
       { path: "category/:categoryName", Component: Category },
       { path: "create-listing", Component: CreateListing },
+      { path: "category/:categoryName/:listingId", Component: Listing },
 
       {
         Component: PrivateRoute,
