@@ -1,29 +1,34 @@
 import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, type DocumentData } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { db } from "../firebase.config";
 
+interface Listing {
+  name: string;
+  userRef: string;
+}
+
 export default function Listing() {
-  const [listing, setListing] = useState(null);
+  const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState(true);
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
-
-  usestates
 
   const navigate = useNavigate();
   const params = useParams();
   const auth = getAuth();
 
-  
-
-  console.log(navigate);
   console.log(params);
   console.log(auth);
 
   useEffect(() => {
     const fetchListing = async () => {
+      if (!params.listingId) {
+        setLoading(false);
+        return;
+      }
+
       const docRef = doc(db, "listings", params.listingId);
       const docSnap = await getDoc(docRef);
 
@@ -41,5 +46,31 @@ export default function Listing() {
     // };
   }, [params.listingId]);
 
-  return <div>Listing</div>;
+  return (
+    <main>
+      {/* SLIDER */}
+      <div
+        onClick={() => {
+          navigator.clipboard.writeText(window.location.href);
+          setShareLinkCopied(true);
+          setTimeout(() => {
+            setShareLinkCopied(false);
+          }, 2000);
+        }}
+      >
+        <p>Share Icon</p>
+
+        {shareLinkCopied && <p>Link Copied!</p>}
+      </div>
+
+      <div>Listing</div>
+      <p>{params.listingId}</p>
+
+      {auth.currentUser?.uid !== listing.userRef && (
+        <Link to={`/contact/${listing.userRef}?listingName=${listing.name}`}>
+          Contact Landlord
+        </Link>
+      )}
+    </main>
+  );
 }
