@@ -5,13 +5,13 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { db } from "../firebase.config";
 
-interface Listing {
-  name: string;
-  userRef: string;
-}
+// interface Listing {
+//   name: string;
+//   userRef: string;
+// }
 
 export default function Listing() {
-  const [listing, setListing] = useState<Listing | null>(null);
+  const [listing, setListing] = useState<DocumentData | string>("");
   const [loading, setLoading] = useState(true);
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
 
@@ -19,15 +19,16 @@ export default function Listing() {
   const params = useParams();
   const auth = getAuth();
 
+  console.log(listing);
   console.log(params);
   console.log(auth);
 
   useEffect(() => {
     const fetchListing = async () => {
-      if (!params.listingId) {
-        setLoading(false);
-        return;
-      }
+      // if (!params.listingId) {
+      //   setLoading(false);
+      //   return;
+      // }
 
       const docRef = doc(db, "listings", params.listingId);
       const docSnap = await getDoc(docRef);
@@ -35,8 +36,8 @@ export default function Listing() {
       if (docSnap.exists()) {
         console.log(docSnap.data());
         setListing(docSnap.data());
-        setLoading(false);
       }
+      setLoading(false);
     };
 
     fetchListing();
@@ -71,6 +72,12 @@ export default function Listing() {
           Contact Landlord
         </Link>
       )}
+
+      {/* {listing && auth.currentUser?.uid !== listing.userRef && (
+        <Link to={`/contact/${listing.userRef}?listingName=${listing.name}`}>
+          Contact Landlord
+        </Link>
+      )} */}
     </main>
   );
 }
